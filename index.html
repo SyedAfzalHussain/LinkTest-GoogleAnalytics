@@ -4,7 +4,7 @@
 <html>
 
 <head>
-    <title>Test</title>
+    <title>Google Test</title>
 </head>
 <style>
     body {
@@ -58,7 +58,7 @@
 
 <body>
     <h1>LinkCheck</h1>
-    <p>Enter the link below to check if Google Analytics is enabled or not.</p>
+    <p>Enter the link below to check </p>
     <div>
         <input type="text" name="link" id="link">
         <button onclick="linkCheck()" value="Check">Check</button>
@@ -72,22 +72,20 @@
             var script = document.createElement("script");
             script.src = link;
             script.onload = function () {
-                document.getElementById("result").innerHTML += "Google Analytics is enabled";
+                document.getElementById("result").innerHTML += `</br>Google Analytics is enabled</br>`;
             };
             script.onerror = function () {
-                document.getElementById("result").innerHTML += "Google Analytics is disabled";
+                document.getElementById("result").innerHTML += `</br>Google Analytics is disabled</br>`;
             };
             document.head.appendChild(script);
             linkCheck1();
         }
 
         function linkCheck1() {
-            console.log("linkCheck1")
             var url1 = document.getElementById("link").value;
             var data = {
                 url: url1,
             }
-            console.log(data);
             fetch("/getUrl", {
                 method: "POST",
                 headers: {
@@ -96,11 +94,45 @@
                 body: JSON.stringify(data)
             }).then(res => res.json())
                 .then(data => {
-                    console.log(data);
+                    document.getElementById("result").innerHTML += `</br>${data.ans}`;
+                })
+            linkCheck2();
+        }
+
+        function linkCheck2() {
+            var url1 = document.getElementById("link").value;
+            var data = {
+                url: url1,
+            }
+            fetch("/getDomain", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            }).then(res => res.json())
+                .then(data => {
+                    document.getElementById("result").innerHTML += `</br>${data.ans}`;
+                })
+            linkCheck3();
+        }
+
+        function linkCheck3() {
+            var url1 = document.getElementById("link").value;
+            var data = {
+                url: url1,
+            }
+            fetch("/getGTM", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            }).then(res => res.json())
+                .then(data => {
                     document.getElementById("result").innerHTML += `</br>${data.ans}`;
                 })
         }
-
     </script>
 </body>
 
